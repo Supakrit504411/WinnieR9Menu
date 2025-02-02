@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ร้านอร่อยจัง</title>
+    <style>
+        body {
+            background-color: #FFEB3B;
+            font-family: 'Comic Sans MS', sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #FF4081;
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px white;
+        }
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+        }
+        button {
+            background-color: #FFC107;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 3px 3px 5px #888;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #FF9800;
+            transform: scale(1.1);
+        }
+        .random {
+            background-color: #4CAF50 !important;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍽️ ร้านอร่อยจัง 🍽️</h1>
+    <div class="menu">
+        <button onclick="order('ข้าวผัดกุ้ง')">🦐 ข้าวผัดกุ้ง</button>
+        <button onclick="order('ผัดซีอิ๊ว')">🍜 ผัดซีอิ๊ว</button>
+        <button onclick="order('ไก่ทอด')">🍗 ไก่ทอด</button>
+        <button onclick="order('นมชมพู')">🥛 นมชมพู</button>
+        <button onclick="order('ไอศกรีม')">🍦 ไอศกรีม</button>
+        <button onclick="order('ส้มตำ')">🥗 ส้มตำ</button>
+        <button class="random" onclick="randomOrder()">🎲 สุ่มเมนู!</button>
+    </div>
+    <p id="result"></p>
+    
+    <script>
+        const menuList = ["ข้าวผัดกุ้ง", "ผัดซีอิ๊ว", "ไก่ทอด", "นมชมพู", "ไอศกรีม", "ส้มตำ"];
+
+        function order(menu) {
+            document.getElementById("result").innerHTML = `คุณเลือกเมนู: <b>${menu}</b> 🍽️`;
+        }
+
+        function randomOrder() {
+            const randomMenu = menuList[Math.floor(Math.random() * menuList.length)];
+            order(randomMenu);
+        }
+    </script>
+</body>
+</html>
