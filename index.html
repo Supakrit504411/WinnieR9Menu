@@ -41,41 +41,80 @@
             background-color: #4CAF50 !important;
             color: white;
         }
+        .dice {
+            font-size: 50px;
+            animation: spin 0.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <h1>🍽️ ร้านอร่อยจัง 🍽️</h1>
-    <h2>เลือกเมนูหรือกดสุ่ม!</h2>
-    <div class="menu">
-        <button onclick="order('ข้าวผัดกุ้ง')">🦐 ข้าวผัดกุ้ง</button>
-        <button onclick="order('ผัดซีอิ๊ว')">🍜 ผัดซีอิ๊ว</button>
-        <button onclick="order('ไก่ทอด')">🍗 ไก่ทอด</button>
-        <button onclick="order('นมชมพู')">🥛 นมชมพู</button>
-        <button onclick="order('ไอศกรีม')">🍦 ไอศกรีม</button>
-        <button onclick="order('ส้มตำ')">🥗 ส้มตำ</button>
-    </div>
+    <h1>🍽️ สุ่มเมนูลูกรัก-พี่วินนี่R9 OVR120-น้องริชชี่CR7 OVR109 🍽️</h1>
+    <h2>🎲 สุ่มเมนูพี่วินนี่ & น้องริชชี่</h2>
+    <button class="random" onclick="randomOrder()">🎲 กดสุ่ม!</button>
 
-    <h2>🎲 สุ่มเมนู</h2>
-    <button class="random" onclick="randomOrder('วินนี่')">🔵 สุ่มให้พี่วินนี่</button>
-    <button class="random" onclick="randomOrder('ริชชี่')">🟣 สุ่มให้น้องริชชี่</button>
-
+    <h3 id="loading" style="display:none;">🎲 <span class="dice">🎲</span> กำลังสุ่ม...</h3>
     <p id="result"></p>
 
     <script>
-        const defaultMenu = ["ข้าวผัดกุ้ง", "ผัดซีอิ๊ว", "ไก่ทอด", "นมชมพู", "ไอศกรีม", "ส้มตำ"];
-        const extraMenu = [
-            "ก๋วยจั๊บญวน", "หมูยอทอด", "ลาบเป็ด", "ตำถาด", "ต้มแซ่บกระดูกอ่อน", "ไก่ย่างเขาสวนกวาง", "ข้าวต้มปลา",
-            "เส้นหมี่น้ำใส", "กุ้งเผา", "ปลานิลเผาเกลือ", "ชาบู", "ซูชิ", "พิซซ่า", "ข้าวแกงกะหรี่"
+        const menuList = [
+            { name: "ข้าวผัดกุ้ง", price: 60 },
+            { name: "ผัดซีอิ๊ว", price: 50 },
+            { name: "ไก่ทอด", price: 70 },
+            { name: "นมชมพู", price: 40 },
+            { name: "ไอศกรีม", price: 35 },
+            { name: "ส้มตำ", price: 45 },
+            { name: "ก๋วยจั๊บญวน", price: 55 },
+            { name: "หมูยอทอด", price: 50 },
+            { name: "ลาบเป็ด", price: 80 },
+            { name: "ตำถาด", price: 90 },
+            { name: "ต้มแซ่บกระดูกอ่อน", price: 85 },
+            { name: "ไก่ย่างเขาสวนกวาง", price: 75 },
+            { name: "ข้าวต้มปลา", price: 65 },
+            { name: "เส้นหมี่น้ำใส", price: 50 },
+            { name: "กุ้งเผา", price: 150 },
+            { name: "ปลานิลเผาเกลือ", price: 120 },
+            { name: "ชาบู", price: 200 },
+            { name: "ซูชิ", price: 120 },
+            { name: "พิซซ่า", price: 250 },
+            { name: "ข้าวแกงกะหรี่", price: 90 }
         ];
 
-        function order(menu) {
-            document.getElementById("result").innerHTML = `คุณเลือกเมนู: <b>${menu}</b> 🍽️`;
+        function getRandomMenu() {
+            let selected = [];
+            while (selected.length < 2) {
+                let randomItem = menuList[Math.floor(Math.random() * menuList.length)];
+                if (!selected.includes(randomItem)) {
+                    selected.push(randomItem);
+                }
+            }
+            return selected;
         }
 
-        function randomOrder(person) {
-            let menuPool = [...defaultMenu, ...extraMenu];
-            let randomMenu = menuPool[Math.floor(Math.random() * menuPool.length)];
-            document.getElementById("result").innerHTML = `เมนูของ <b>${person}</b>: ${randomMenu} 🍽️`;
+        function randomOrder() {
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("loading").style.display = "block";
+
+            let delay = 2000;
+            setTimeout(() => {
+                let winnyMenu = getRandomMenu();
+                let richyMenu = getRandomMenu();
+
+                let resultText = `
+                    <h2>🍽️ เมนูของพี่วินนี่</h2>
+                    <p>✅ ${winnyMenu[0].name} - ${winnyMenu[0].price} บาท</p>
+                    <p>✅ ${winnyMenu[1].name} - ${winnyMenu[1].price} บาท</p>
+                    <h2>🍽️ เมนูของน้องริชชี่</h2>
+                    <p>✅ ${richyMenu[0].name} - ${richyMenu[0].price} บาท</p>
+                    <p>✅ ${richyMenu[1].name} - ${richyMenu[1].price} บาท</p>
+                `;
+
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("result").innerHTML = resultText;
+            }, delay);
         }
     </script>
 </body>
